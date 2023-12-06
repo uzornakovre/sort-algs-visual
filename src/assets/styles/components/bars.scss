@@ -4,12 +4,26 @@
   display: flex;
   align-items: flex-end;
   gap: 2px;
-  border-bottom: 1px solid #e2cca5;
+  border-bottom: 1px solid $color-main;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+    background-color: $color-background;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-main;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $color-hover;
+  }
 
   .bar {
-    height: 200px;
-    flex-grow: 1;
-    background-color: #e2cca5;
+    flex-grow: 2;
+    min-width: 2px;
+    background-color: $color-main;
     transition: all 0.2s ease-in-out;
   }
 }

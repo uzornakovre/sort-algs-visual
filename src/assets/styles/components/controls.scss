@@ -1,0 +1,144 @@
+.controls {
+  display: flex;
+  gap: 10px;
+
+  button {
+    width: 200px;
+    height: 60px;
+    background-color: transparent;
+    border: 1px solid $color-main;
+    color: #e2cca5;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    &:hover {
+      color: $color-hover;
+      border-color: $color-hover;
+    }
+
+    &:disabled {
+      border: 1px solid $color-disabled;
+      color: $color-disabled;
+      cursor: default;
+    }
+  }
+
+  .settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .setting {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  label {
+    order: -1;
+    text-align: start;
+    min-width: 50px;
+    font-size: 14px;
+    color: $color-main;
+  }
+
+  input:disabled + label {
+    color: $color-disabled;
+  }
+
+  input[type="range"] {
+    margin: 0;
+    width: 200px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    overflow: hidden;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
+
+    &::-webkit-slider-runnable-track {
+      border-radius: 0;
+      height: 25px;
+      border: 1px solid $color-main;
+      background-color: $color-background;
+      transition: all 0.2s linear;
+    }
+
+    &:hover::-webkit-slider-runnable-track {
+      border: 1px solid $color-hover;
+    }
+
+    &::-webkit-slider-thumb {
+      background: $color-main;
+      border: 1px solid $color-main;
+      border-radius: 0;
+      width: 1px;
+      height: 100%;
+      -webkit-appearance: none;
+      box-shadow: -200px 0 0 200px $color-main;
+      transition: all 0.2s linear;
+    }
+
+    &:hover::-webkit-slider-thumb {
+      background: $color-hover;
+      border: 1px solid $color-hover;
+      box-shadow: -200px 0 0 200px $color-hover;
+    }
+
+    &::-moz-range-track {
+      border-radius: 0;
+      height: 25px;
+      border: 1px solid $color-main;
+      background-color: $color-background;
+      transition: all 0.2s linear;
+    }
+
+    &:hover::-moz-range-track {
+      border: 1px solid $color-hover;
+    }
+
+    &::-moz-range-thumb {
+      background: $color-main;
+      border: 1px solid $color-main;
+      border-radius: 0;
+      box-shadow: -200px 0 0 200px $color-main;
+      transition: all 0.2s linear;
+    }
+
+    &:hover::-moz-range-thumb {
+      background: $color-hover;
+      border: 1px solid $color-hover;
+      box-shadow: -200px 0 0 200px $color-hover;
+    }
+
+    &:disabled::-webkit-slider-runnable-track {
+      border: 1px solid $color-disabled;
+      color: $color-disabled;
+    }
+
+    &:disabled::-webkit-slider-thumb {
+      background: $color-disabled;
+      border: 1px solid $color-disabled;
+      color: $color-disabled;
+      box-shadow: -200px 0 0 200px $color-disabled;
+    }
+
+    &:disabled::-moz-range-track {
+      border: 1px solid $color-disabled;
+      color: $color-disabled;
+    }
+
+    &:disabled::-moz-range-thumb {
+      background: $color-disabled;
+      border: 1px solid $color-disabled;
+      color: $color-disabled;
+      box-shadow: -200px 0 0 200px $color-disabled;
+    }
+  }
+}

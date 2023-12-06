@@ -1,7 +1,9 @@
 @import url("../styles/vendor/reset.css");
 @import url("../styles/vendor/fonts.css");
 
+@import "../styles/abstracts/variables.scss";
+
 @import "../styles/components/page.scss";
 @import "../styles/components/container.scss";
-@import "../styles/components//bars.scss";
-@import "../styles/components/buttons";
+@import "../styles/components/bars.scss";
+@import "../styles/components/controls.scss";
