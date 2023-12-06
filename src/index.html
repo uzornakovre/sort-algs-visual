@@ -16,6 +16,13 @@
       <div class="controls">
         <div class="settings">
           <div class="setting">
+            <label for="algorithm">Алгоритм:</label>
+            <select name="algorithm" id="algorithm">
+              <option value="bubble" selected>Сортировка пузырьком</option>
+              <option value="fast">Быстрая сортировка</option>
+            </select>
+          </div>
+          <div class="setting">
             <input type="range" min="1" max="100" value="70" id="speed" />
             <label class="range-label" for="speed">Скорость сортировки:</label>
           </div>

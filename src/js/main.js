@@ -1,17 +1,21 @@
 import "../assets/styles/index.scss";
+import {
+  MAX_DELAY,
+  MIN_ARRAY_RANGE,
+  SORT_ALGORITHMS,
+} from "../utils/constants";
 
 const randomizeArrayBtn = document.querySelector("#randomize_array_btn");
 const sortBtn = document.querySelector("#sort_btn");
 const barsContainer = document.querySelector(".bars");
 const delayInput = document.querySelector("#speed");
 const arrayLengthInput = document.querySelector("#length");
-
-const MIN_ARRAY_RANGE = 2;
-const MAX_DELAY = 100;
+const algorithmSelect = document.querySelector("#algorithm");
 
 let arrayLength = 100;
 let delay = 30;
 let unsortedArray = null;
+let sortAlgorithm = SORT_ALGORITHMS.bubbleSort;
 
 const getRandomNumber = (min, max) => {
   return Math.round(Math.random() * (max - min)) + min;
@@ -94,7 +98,11 @@ const handleChangeSpeed = (evt) => {
 
 const handleChangeArrayLength = (evt) => {
   arrayLength = evt.target.value;
-  console.log(arrayLength);
+};
+
+const handleChangeSortAlgorithm = (evt) => {
+  sortAlgorithm = evt.target.value;
+  console.log(sortAlgorithm);
 };
 
 const disableControls = () => {
@@ -110,5 +118,6 @@ const enableControls = () => {
 window.addEventListener("load", init);
 delayInput.addEventListener("input", handleChangeSpeed);
 arrayLengthInput.addEventListener("input", handleChangeArrayLength);
+algorithmSelect.addEventListener("change", handleChangeSortAlgorithm);
 randomizeArrayBtn.addEventListener("click", init);
 sortBtn.addEventListener("click", () => sort(unsortedArray, bubbleSort));
