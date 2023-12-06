@@ -3,19 +3,23 @@ import "../assets/styles/index.scss";
 const randomizeArrayBtn = document.querySelector("#randomize_array_btn");
 const sortBtn = document.querySelector("#sort_btn");
 const barsContainer = document.querySelector(".bars");
-const MIN_RANGE = 1;
-const MAX_RANGE = 100;
-const BARS_COUNT = 100;
+const delayInput = document.querySelector("#speed");
+const arrayLengthInput = document.querySelector("#length");
 
-let unsortedArray = new Array(BARS_COUNT);
+const MIN_ARRAY_RANGE = 2;
+const MAX_DELAY = 100;
+
+let arrayLength = 100;
+let delay = 30;
+let unsortedArray = null;
 
 const getRandomNumber = (min, max) => {
   return Math.round(Math.random() * (max - min)) + min;
 };
 
 const createRandomArray = () => {
-  for (let i = 0; i < BARS_COUNT; i++) {
-    unsortedArray[i] = getRandomNumber(MIN_RANGE, MAX_RANGE);
+  for (let i = 0; i < arrayLength; i++) {
+    unsortedArray[i] = getRandomNumber(MIN_ARRAY_RANGE, arrayLength);
   }
 };
 
@@ -23,7 +27,7 @@ const renderBars = (array) => {
   for (let i = 0; i < array.length; i++) {
     const bar = document.createElement("div");
     bar.classList.add("bar");
-    bar.style.height = `${array[i]}%`;
+    bar.style.height = `${(array[i] / array.length) * 100}%`;
 
     barsContainer.appendChild(bar);
   }
@@ -34,12 +38,15 @@ const clearBarContainer = () => {
 };
 
 const init = () => {
+  unsortedArray = new Array(arrayLength);
+
   clearBarContainer();
   createRandomArray();
   renderBars(unsortedArray);
+  enableControls();
 };
 
-const delay = (ms) => {
+const sleep = (ms) => {
   return new Promise((res) => setTimeout(res, ms));
 };
 
@@ -59,29 +66,49 @@ const bubbleSort = async (array) => {
         array[j] = array[j + 1];
         array[j + 1] = temp;
 
-        bars[j].style.height = `${array[j]}%`;
+        bars[j].style.height = `${(array[j] / array.length) * 100}%`;
         bars[j].style.backgroundColor = "#ec0b0b";
 
-        bars[j + 1].style.height = `${array[j + 1]}%`;
+        bars[j + 1].style.height = `${(array[j + 1] / array.length) * 100}%`;
         bars[j + 1].style.backgroundColor = "#ec0b0b";
 
-        await delay(30);
+        await sleep(delay);
       }
     }
-    await delay(30);
+    await sleep(delay);
   }
 
   return array;
 };
 
 const sort = (array, algorithm) => {
-  sortBtn.setAttribute("disabled", true);
+  disableControls();
   algorithm(array).then(() => {
-    console.log(1);
-    sortBtn.removeAttribute("disabled");
+    enableControls();
   });
 };
 
+const handleChangeSpeed = (evt) => {
+  delay = MAX_DELAY - evt.target.value;
+};
+
+const handleChangeArrayLength = (evt) => {
+  arrayLength = evt.target.value;
+  console.log(arrayLength);
+};
+
+const disableControls = () => {
+  sortBtn.setAttribute("disabled", true);
+  arrayLengthInput.setAttribute("disabled", true);
+};
+
+const enableControls = () => {
+  sortBtn.removeAttribute("disabled");
+  arrayLengthInput.removeAttribute("disabled");
+};
+
 window.addEventListener("load", init);
+delayInput.addEventListener("input", handleChangeSpeed);
+arrayLengthInput.addEventListener("input", handleChangeArrayLength);
 randomizeArrayBtn.addEventListener("click", init);
 sortBtn.addEventListener("click", () => sort(unsortedArray, bubbleSort));

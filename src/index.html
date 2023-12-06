@@ -13,9 +13,19 @@
   <body class="page">
     <div class="container">
       <div class="bars"></div>
-      <div class="buttons">
-        <button class="button" id="randomize_array_btn">Randomize</button>
-        <button class="button" id="sort_btn">Sort</button>
+      <div class="controls">
+        <div class="settings">
+          <div class="setting">
+            <input type="range" min="1" max="100" value="70" id="speed" />
+            <label class="range-label" for="speed">Скорость сортировки:</label>
+          </div>
+          <div class="setting">
+            <input type="range" min="10" max="1000" value="100" id="length" />
+            <label class="range-label" for="length">Длина массива:</label>
+          </div>
+        </div>
+        <button id="randomize_array_btn">Сгенеритовать новый массив</button>
+        <button id="sort_btn">Отсортировать</button>
       </div>
     </div>
   </body>
