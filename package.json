@@ -1,7 +1,7 @@
 {
   "name": "sort-algs-visual",
   "version": "1.0.0",
-  "description": "Sorting algoritms visualisator",
+  "description": "Sorting algorithms visualisator",
   "main": "main.js",
   "scripts": {
     "build": "webpack --mode production",
