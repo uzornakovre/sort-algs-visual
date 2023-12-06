@@ -1,0 +1,10 @@
+.bars {
+  display: flex;
+
+  .bar {
+    height: 200px;
+    width: 20px;
+    margin: 0 2px;
+    background-color: rgb(226, 204, 165);
+  }
+}
