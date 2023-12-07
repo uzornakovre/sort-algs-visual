@@ -6,6 +6,7 @@ export default class Sort {
     this.delayInput = delayInput;
     this.stopBtn = stopBtn;
     this.accentColor = "#ec0b0b";
+    this.auxColor = "#dbb676";
     this.mainColor = "#e2cca5";
     this.isRunning = false;
     this.setEventListeners();
@@ -34,6 +35,79 @@ export default class Sort {
 
   handleChangeSpeed = (evt) => {
     this.delay = this.maxDelay - evt.target.value;
+  };
+
+  quickSort = async (array) => {
+    this.isRunning = true;
+
+    await this.quickSortAsPartition(array, 0, array.length - 1);
+    return array;
+  };
+
+  swap = async (arr, a, b) => {
+    [arr[a], arr[b]] = [arr[b], arr[a]];
+  };
+
+  quickSortAsPartition = async (arr, startIndex, endIndex) => {
+    if (startIndex >= endIndex || !this.isRunning) return;
+
+    let index = await this.partition(arr, startIndex, endIndex);
+
+    if (!this.isRunning) return;
+
+    this.setBar(index, arr, this.mainColor, true);
+    await this.sleep(this.delay);
+
+    await Promise.all([
+      this.quickSortAsPartition(arr, startIndex, index - 1),
+      this.quickSortAsPartition(arr, index + 1, endIndex),
+    ]);
+  };
+
+  partition = async (arr, startIndex, endIndex) => {
+    for (let i = startIndex; i <= endIndex; i++) {
+      this.setBar(i, arr, this.auxColor, true);
+    }
+
+    const pivotValue = arr[endIndex];
+    let pivotIndex = startIndex;
+
+    this.setBar(pivotIndex, arr, this.accentColor, true);
+    await this.sleep(this.delay);
+
+    for (let i = pivotIndex; i < endIndex; i++) {
+      if (!this.isRunning) return;
+
+      if (arr[i] <= pivotValue) {
+        await this.swap(arr, i, pivotIndex);
+
+        this.setBar(pivotIndex, arr, this.auxColor);
+        await this.sleep(this.delay);
+
+        pivotIndex++;
+
+        this.setBar(pivotIndex, arr, this.accentColor);
+        await this.sleep(this.delay);
+      }
+    }
+
+    await this.swap(arr, pivotIndex, endIndex);
+
+    for (let j = startIndex; j < endIndex; j++) {
+      if (!this.isRunning) return;
+
+      if (j != pivotIndex) {
+        this.setBar(pivotIndex, arr, this.mainColor, true);
+      } else {
+        this.setBar(pivotIndex, arr, this.mainColor, true);
+      }
+    }
+
+    this.setBar(startIndex, arr, this.mainColor, true);
+    this.setBar(endIndex, arr, this.mainColor, true);
+    this.setBar(pivotIndex, arr, this.mainColor, true);
+
+    return pivotIndex;
   };
 
   bubbleSort = async (array) => {
@@ -65,45 +139,38 @@ export default class Sort {
     return array;
   };
 
-  quickSort = async (array) => {
-    this.isRunning = true;
-    const bars = this.barsContainer.querySelectorAll(".bar");
+  // quickSort = async (array) => {
+  //   this.isRunning = true;
 
-    if (array.length < 2) {
-      return array;
-    }
+  //   if (array.length < 2) {
+  //     return array;
+  //   }
 
-    let pivotIndex = Math.floor(array.length / 2);
-    let pivot = array[pivotIndex];
-    let less = [];
-    let greater = [];
+  //   let pivotIndex = Math.floor(array.length / 2);
+  //   let pivot = array[pivotIndex];
+  //   let less = [];
+  //   let greater = [];
 
-    for (let i = 0; i < array.length; i++) {
-      if (i === pivotIndex) continue;
-      if (array[i] < pivot) {
-        less.push(array[i]);
+  //   for (let i = 0; i < array.length; i++) {
+  //     if (i === pivotIndex) continue;
+  //     if (array[i] < pivot) {
+  //       less.push(array[i]);
+  //       this.setBar(pivotIndex, array, this.accentColor);
+  //     } else {
+  //       greater.push(array[i]);
+  //       this.setBar(pivotIndex, array, this.accentColor);
+  //     }
 
-        bars[pivotIndex].style.height = `${
-          (array[pivotIndex] / array.length) * 100
-        }%`;
-        bars[pivotIndex].style.backgroundColor = "#ec0b0b";
-      } else {
-        greater.push(array[i]);
+  //     await this.sleep(this.delay);
+  //   }
 
-        bars[pivotIndex].style.height = `${
-          (array[pivotIndex] / array.length) * 100
-        }%`;
-        bars[pivotIndex].style.backgroundColor = "#ec0b0b";
-      }
-
-      // bars[i].style.height = `${(array[i] / array.length) * 100}%`;
-      // bars[i].style.backgroundColor = "#ec0b0b";
-
-      await this.sleep(this.delay);
-    }
-
-    return [...this.quickSort(less), pivot, ...this.quickSort(greater)];
-  };
+  //   // console.log([...this.quickSort(less), pivot, ...this.quickSort(greater)]);
+  //   return [
+  //     ...(await this.quickSort(less)),
+  //     pivot,
+  //     ...(await this.quickSort(greater)),
+  //   ];
+  // };
 
   selectionSort = async (array) => {
     this.isRunning = true;

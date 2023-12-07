@@ -16,7 +16,7 @@ export default class Controller {
     this.stopBtn = stopBtn;
     this.arrayLength = 100;
     this.SORT_ALGORITHMS = SORT_ALGORITHMS;
-    this.sortAlgorithm = SORT_ALGORITHMS.selection;
+    this.sortAlgorithm = SORT_ALGORITHMS.quick;
     this.unsortedArray = null;
     this.minArrayRange = 2;
   }
@@ -108,7 +108,8 @@ export default class Controller {
       this.randomizeArrayBtn,
     ]);
     this.enableControls([this.stopBtn]);
-    algorithm(array).then(() => {
+    algorithm(array).then((res) => {
+      console.log(res);
       this.disableControls([this.stopBtn]);
       this.enableControls([
         this.sortBtn,
