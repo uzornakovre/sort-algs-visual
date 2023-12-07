@@ -39,17 +39,10 @@ export default class Sort {
   bubbleSort = async (array) => {
     this.isRunning = true;
 
-    const bars = this.barsContainer.querySelectorAll(".bar");
-
     for (let i = 0; i < array.length; i++) {
       for (let j = 0; j < array.length - i - 1; j++) {
         if (array[j] > array[j + 1]) {
-          for (let k = 0; k < bars.length; k++) {
-            if (k !== j && k !== j + 1) {
-              this.setBar(k, array, this.mainColor);
-            }
-            if (!this.isRunning) return;
-          }
+          if (!this.isRunning) return;
 
           let temp = array[j];
           array[j] = array[j + 1];
@@ -57,6 +50,11 @@ export default class Sort {
 
           this.setBar(j, array, this.accentColor, true);
           this.setBar(j + 1, array, this.accentColor, true);
+
+          await this.sleep(50);
+
+          this.setBar(j, array, this.mainColor);
+          this.setBar(j + 1, array, this.mainColor);
 
           await this.sleep(this.delay);
         }
@@ -68,6 +66,7 @@ export default class Sort {
   };
 
   quickSort = async (array) => {
+    this.isRunning = true;
     const bars = this.barsContainer.querySelectorAll(".bar");
 
     if (array.length < 2) {
@@ -107,17 +106,27 @@ export default class Sort {
   };
 
   selectionSort = async (array) => {
-    const bars = this.barsContainer.querySelectorAll(".bar");
+    this.isRunning = true;
 
     for (let i = 0; i < array.length; i++) {
       let smallestIndex = i;
       for (let j = i + 1; j < array.length; j++) {
+        let temp = smallestIndex;
+
         if (array[j] < array[smallestIndex]) {
+          temp = smallestIndex;
           smallestIndex = j;
         }
 
-        // bars[j].style.height = `${(array[j] / array.length) * 100}%`;
-        // bars[j].style.backgroundColor = "#ec0b0b";
+        if (!this.isRunning) return;
+
+        this.setBar(j, array, this.accentColor);
+
+        await this.sleep(this.delay);
+
+        this.setBar(j, array, this.mainColor);
+        this.setBar(temp, array, this.mainColor);
+        this.setBar(smallestIndex, array, this.accentColor);
 
         await this.sleep(this.delay);
       }
@@ -125,13 +134,13 @@ export default class Sort {
       array[i] = array[smallestIndex];
       array[smallestIndex] = tmp;
 
-      bars[i].style.height = `${(array[i] / array.length) * 100}%`;
-      bars[i].style.backgroundColor = "#ec0b0b";
+      this.setBar(i, array, this.accentColor, true);
+      this.setBar(smallestIndex, array, this.accentColor, true);
 
-      bars[smallestIndex].style.height = `${
-        (array[smallestIndex] / array.length) * 100
-      }%`;
-      bars[smallestIndex].style.backgroundColor = "#ec0b0b";
+      await this.sleep(500);
+
+      this.setBar(i, array, this.mainColor);
+      this.setBar(smallestIndex, array, this.mainColor);
 
       await this.sleep(this.delay);
     }
