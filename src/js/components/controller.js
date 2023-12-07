@@ -5,6 +5,7 @@ export default class Controller {
     algorithmSelect,
     randomizeArrayBtn,
     sortBtn,
+    stopBtn,
     SORT_ALGORITHMS
   ) {
     this.barsContainer = barsContainer;
@@ -12,9 +13,10 @@ export default class Controller {
     this.algorithmSelect = algorithmSelect;
     this.randomizeArrayBtn = randomizeArrayBtn;
     this.sortBtn = sortBtn;
+    this.stopBtn = stopBtn;
     this.arrayLength = 100;
     this.SORT_ALGORITHMS = SORT_ALGORITHMS;
-    this.sortAlgorithm = SORT_ALGORITHMS.bubble;
+    this.sortAlgorithm = SORT_ALGORITHMS.selection;
     this.unsortedArray = null;
     this.minArrayRange = 2;
   }
@@ -39,6 +41,7 @@ export default class Controller {
 
   init = () => {
     this.setEventListeners();
+    this.disableControls([this.stopBtn]);
     this.renderNewArray();
   };
 
@@ -99,9 +102,19 @@ export default class Controller {
   };
 
   handleStartSort = (array, algorithm) => {
-    this.disableControls([this.sortBtn, this.arrayLengthInput]);
+    this.disableControls([
+      this.sortBtn,
+      this.arrayLengthInput,
+      this.randomizeArrayBtn,
+    ]);
+    this.enableControls([this.stopBtn]);
     algorithm(array).then(() => {
-      this.enableControls([this.sortBtn, this.arrayLengthInput]);
+      this.disableControls([this.stopBtn]);
+      this.enableControls([
+        this.sortBtn,
+        this.arrayLengthInput,
+        this.randomizeArrayBtn,
+      ]);
     });
   };
 }
