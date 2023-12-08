@@ -217,4 +217,40 @@ export default class Sort {
 
     return array;
   };
+
+  shellSort = async (array) => {
+    this.isRunning = true;
+
+    let gap = Math.floor(array.length / 2);
+
+    while (gap > 0) {
+      for (let i = 0; i < array.length; i++) {
+        if (!this.isRunning) return;
+
+        let temp = array[i];
+        let j;
+
+        for (j = i; j >= gap && array[j - gap] > temp; j -= gap) {
+          array[j] = array[j - gap];
+
+          this.setBar(j, array, this.accentColor, true);
+          this.setBar(j - gap, array, this.auxColor, true);
+          await this.sleep(this.delay);
+          await this.sleep(this.delay);
+
+          this.setBar(j, array, this.mainColor);
+        }
+
+        array[j] = temp;
+
+        this.setBar(j, array, this.aux, true);
+        await this.sleep(this.delay);
+
+        this.setBar(j, array, this.mainColor);
+      }
+      gap = Math.floor(gap / 2);
+    }
+
+    return array;
+  };
 }

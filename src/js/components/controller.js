@@ -16,7 +16,7 @@ export default class Controller {
     this.stopBtn = stopBtn;
     this.arrayLength = 100;
     this.SORT_ALGORITHMS = SORT_ALGORITHMS;
-    this.sortAlgorithm = SORT_ALGORITHMS.gnome;
+    this.sortAlgorithm = SORT_ALGORITHMS.shell;
     this.unsortedArray = null;
     this.minArrayRange = 2;
   }

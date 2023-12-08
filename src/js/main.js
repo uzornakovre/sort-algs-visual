@@ -17,6 +17,7 @@ const SORT_ALGORITHMS = {
   quick: sort.quickSort,
   selection: sort.selectionSort,
   gnome: sort.gnomeSort,
+  shell: sort.shellSort,
 };
 
 const controller = new Controller(
