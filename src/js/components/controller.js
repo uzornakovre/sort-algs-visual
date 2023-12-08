@@ -16,7 +16,7 @@ export default class Controller {
     this.stopBtn = stopBtn;
     this.arrayLength = 100;
     this.SORT_ALGORITHMS = SORT_ALGORITHMS;
-    this.sortAlgorithm = SORT_ALGORITHMS.quick;
+    this.sortAlgorithm = SORT_ALGORITHMS.gnome;
     this.unsortedArray = null;
     this.minArrayRange = 2;
   }
@@ -87,6 +87,7 @@ export default class Controller {
 
   handleChangeSortAlgorithm = (evt) => {
     this.sortAlgorithm = this.SORT_ALGORITHMS[evt.target.value];
+    console.log(this.SORT_ALGORITHMS[evt.target.value]);
   };
 
   disableControls = (elements) => {

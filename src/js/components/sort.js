@@ -33,6 +33,10 @@ export default class Sort {
     return new Promise((res) => setTimeout(res, ms));
   };
 
+  swap = async (arr, a, b) => {
+    [arr[a], arr[b]] = [arr[b], arr[a]];
+  };
+
   handleChangeSpeed = (evt) => {
     this.delay = this.maxDelay - evt.target.value;
   };
@@ -42,10 +46,6 @@ export default class Sort {
 
     await this.quickSortAsPartition(array, 0, array.length - 1);
     return array;
-  };
-
-  swap = async (arr, a, b) => {
-    [arr[a], arr[b]] = [arr[b], arr[a]];
   };
 
   quickSortAsPartition = async (arr, startIndex, endIndex) => {
@@ -118,9 +118,7 @@ export default class Sort {
         if (array[j] > array[j + 1]) {
           if (!this.isRunning) return;
 
-          let temp = array[j];
-          array[j] = array[j + 1];
-          array[j + 1] = temp;
+          await this.swap(array, j, j + 1);
 
           this.setBar(j, array, this.accentColor, true);
           this.setBar(j + 1, array, this.accentColor, true);
@@ -138,39 +136,6 @@ export default class Sort {
 
     return array;
   };
-
-  // quickSort = async (array) => {
-  //   this.isRunning = true;
-
-  //   if (array.length < 2) {
-  //     return array;
-  //   }
-
-  //   let pivotIndex = Math.floor(array.length / 2);
-  //   let pivot = array[pivotIndex];
-  //   let less = [];
-  //   let greater = [];
-
-  //   for (let i = 0; i < array.length; i++) {
-  //     if (i === pivotIndex) continue;
-  //     if (array[i] < pivot) {
-  //       less.push(array[i]);
-  //       this.setBar(pivotIndex, array, this.accentColor);
-  //     } else {
-  //       greater.push(array[i]);
-  //       this.setBar(pivotIndex, array, this.accentColor);
-  //     }
-
-  //     await this.sleep(this.delay);
-  //   }
-
-  //   // console.log([...this.quickSort(less), pivot, ...this.quickSort(greater)]);
-  //   return [
-  //     ...(await this.quickSort(less)),
-  //     pivot,
-  //     ...(await this.quickSort(greater)),
-  //   ];
-  // };
 
   selectionSort = async (array) => {
     this.isRunning = true;
@@ -197,9 +162,7 @@ export default class Sort {
 
         await this.sleep(this.delay);
       }
-      let tmp = array[i];
-      array[i] = array[smallestIndex];
-      array[smallestIndex] = tmp;
+      await this.swap(array, i, smallestIndex);
 
       this.setBar(i, array, this.accentColor, true);
       this.setBar(smallestIndex, array, this.accentColor, true);
@@ -211,6 +174,47 @@ export default class Sort {
 
       await this.sleep(this.delay);
     }
+    return array;
+  };
+
+  gnomeSort = async (array) => {
+    this.isRunning = true;
+
+    let index = 0;
+
+    while (index < array.length) {
+      if (!this.isRunning) return;
+
+      if (index === 0) index++;
+
+      if (array[index] >= array[index - 1]) {
+        index++;
+
+        if (index < array.length) {
+          this.setBar(index, array, this.accentColor);
+          await this.sleep(this.delay);
+
+          this.setBar(index, array, this.mainColor);
+        }
+      } else {
+        this.setBar(index, array, this.accentColor);
+        this.setBar(index - 1, array, this.accentColor);
+        await this.sleep(this.delay);
+
+        await this.swap(array, index, index - 1);
+
+        this.setBar(index, array, this.accentColor, true);
+        this.setBar(index - 1, array, this.accentColor, true);
+        await this.sleep(this.delay);
+
+        this.setBar(index, array, this.mainColor);
+        this.setBar(index - 1, array, this.mainColor);
+
+        index--;
+      }
+    }
+    await this.sleep(this.delay);
+
     return array;
   };
 }

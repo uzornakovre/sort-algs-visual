@@ -16,6 +16,7 @@ const SORT_ALGORITHMS = {
   bubble: sort.bubbleSort,
   quick: sort.quickSort,
   selection: sort.selectionSort,
+  gnome: sort.gnomeSort,
 };
 
 const controller = new Controller(
@@ -29,5 +30,3 @@ const controller = new Controller(
 );
 
 window.addEventListener("load", controller.init);
-// delayInput.addEventListener("input", sort.handleChangeSpeed);
-// randomizeArrayBtn.addEventListener("click", sort.stop);
