@@ -13,11 +13,11 @@ export default class Sort {
   }
 
   _setEventListeners = () => {
-    this.delayInput.addEventListener("input", this.handleChangeSpeed);
-    this.stopBtn.addEventListener("click", this.stop);
+    this.delayInput.addEventListener("input", this._changeSpeed);
+    this.stopBtn.addEventListener("click", this._stop);
   };
 
-  setBar = (index, array, color, height = false) => {
+  _setBar = (index, array, color, height = false) => {
     const bars = this.barsContainer.querySelectorAll(".bar");
 
     height &&
@@ -25,87 +25,87 @@ export default class Sort {
     bars[index].style.backgroundColor = color;
   };
 
-  stop = () => {
+  _stop = () => {
     this.isRunning = false;
   };
 
-  sleep = (ms) => {
+  _sleep = (ms) => {
     return new Promise((res) => setTimeout(res, ms));
   };
 
-  swap = async (arr, a, b) => {
+  _swap = async (arr, a, b) => {
     [arr[a], arr[b]] = [arr[b], arr[a]];
   };
 
-  handleChangeSpeed = (evt) => {
+  _changeSpeed = (evt) => {
     this.delay = this.maxDelay - evt.target.value;
   };
 
   quickSort = async (array) => {
     this.isRunning = true;
 
-    await this.quickSortAsPartition(array, 0, array.length - 1);
+    await this._quickSortAsPartition(array, 0, array.length - 1);
     return array;
   };
 
-  quickSortAsPartition = async (arr, startIndex, endIndex) => {
+  _quickSortAsPartition = async (arr, startIndex, endIndex) => {
     if (startIndex >= endIndex || !this.isRunning) return;
 
-    let index = await this.partition(arr, startIndex, endIndex);
+    let index = await this._partition(arr, startIndex, endIndex);
 
     if (!this.isRunning) return;
 
-    this.setBar(index, arr, this.mainColor, true);
-    await this.sleep(this.delay);
+    this._setBar(index, arr, this.mainColor, true);
+    await this._sleep(this.delay);
 
     await Promise.all([
-      this.quickSortAsPartition(arr, startIndex, index - 1),
-      this.quickSortAsPartition(arr, index + 1, endIndex),
+      this._quickSortAsPartition(arr, startIndex, index - 1),
+      this._quickSortAsPartition(arr, index + 1, endIndex),
     ]);
   };
 
-  partition = async (arr, startIndex, endIndex) => {
+  _partition = async (arr, startIndex, endIndex) => {
     for (let i = startIndex; i <= endIndex; i++) {
-      this.setBar(i, arr, this.auxColor, true);
+      this._setBar(i, arr, this.auxColor, true);
     }
 
     const pivotValue = arr[endIndex];
     let pivotIndex = startIndex;
 
-    this.setBar(pivotIndex, arr, this.accentColor, true);
-    await this.sleep(this.delay);
+    this._setBar(pivotIndex, arr, this.accentColor, true);
+    await this._sleep(this.delay);
 
     for (let i = pivotIndex; i < endIndex; i++) {
       if (!this.isRunning) return;
 
       if (arr[i] <= pivotValue) {
-        await this.swap(arr, i, pivotIndex);
+        await this._swap(arr, i, pivotIndex);
 
-        this.setBar(pivotIndex, arr, this.auxColor);
-        await this.sleep(this.delay);
+        this._setBar(pivotIndex, arr, this.auxColor);
+        await this._sleep(this.delay);
 
         pivotIndex++;
 
-        this.setBar(pivotIndex, arr, this.accentColor);
-        await this.sleep(this.delay);
+        this._setBar(pivotIndex, arr, this.accentColor);
+        await this._sleep(this.delay);
       }
     }
 
-    await this.swap(arr, pivotIndex, endIndex);
+    await this._swap(arr, pivotIndex, endIndex);
 
     for (let j = startIndex; j < endIndex; j++) {
       if (!this.isRunning) return;
 
       if (j != pivotIndex) {
-        this.setBar(pivotIndex, arr, this.mainColor, true);
+        this._setBar(pivotIndex, arr, this.mainColor, true);
       } else {
-        this.setBar(pivotIndex, arr, this.mainColor, true);
+        this._setBar(pivotIndex, arr, this.mainColor, true);
       }
     }
 
-    this.setBar(startIndex, arr, this.mainColor, true);
-    this.setBar(endIndex, arr, this.mainColor, true);
-    this.setBar(pivotIndex, arr, this.mainColor, true);
+    this._setBar(startIndex, arr, this.mainColor, true);
+    this._setBar(endIndex, arr, this.mainColor, true);
+    this._setBar(pivotIndex, arr, this.mainColor, true);
 
     return pivotIndex;
   };
@@ -118,20 +118,20 @@ export default class Sort {
         if (array[j] > array[j + 1]) {
           if (!this.isRunning) return;
 
-          await this.swap(array, j, j + 1);
+          await this._swap(array, j, j + 1);
 
-          this.setBar(j, array, this.accentColor, true);
-          this.setBar(j + 1, array, this.accentColor, true);
+          this._setBar(j, array, this.accentColor, true);
+          this._setBar(j + 1, array, this.accentColor, true);
 
-          await this.sleep(50);
+          await this._sleep(50);
 
-          this.setBar(j, array, this.mainColor);
-          this.setBar(j + 1, array, this.mainColor);
+          this._setBar(j, array, this.mainColor);
+          this._setBar(j + 1, array, this.mainColor);
 
-          await this.sleep(this.delay);
+          await this._sleep(this.delay);
         }
       }
-      await this.sleep(this.delay);
+      await this._sleep(this.delay);
     }
 
     return array;
@@ -152,27 +152,27 @@ export default class Sort {
 
         if (!this.isRunning) return;
 
-        this.setBar(j, array, this.accentColor);
+        this._setBar(j, array, this.accentColor);
 
-        await this.sleep(this.delay);
+        await this._sleep(this.delay);
 
-        this.setBar(j, array, this.mainColor);
-        this.setBar(temp, array, this.mainColor);
-        this.setBar(smallestIndex, array, this.accentColor);
+        this._setBar(j, array, this.mainColor);
+        this._setBar(temp, array, this.mainColor);
+        this._setBar(smallestIndex, array, this.accentColor);
 
-        await this.sleep(this.delay);
+        await this._sleep(this.delay);
       }
-      await this.swap(array, i, smallestIndex);
+      await this._swap(array, i, smallestIndex);
 
-      this.setBar(i, array, this.accentColor, true);
-      this.setBar(smallestIndex, array, this.accentColor, true);
+      this._setBar(i, array, this.accentColor, true);
+      this._setBar(smallestIndex, array, this.accentColor, true);
 
-      await this.sleep(500);
+      await this._sleep(500);
 
-      this.setBar(i, array, this.mainColor);
-      this.setBar(smallestIndex, array, this.mainColor);
+      this._setBar(i, array, this.mainColor);
+      this._setBar(smallestIndex, array, this.mainColor);
 
-      await this.sleep(this.delay);
+      await this._sleep(this.delay);
     }
     return array;
   };
@@ -191,29 +191,29 @@ export default class Sort {
         index++;
 
         if (index < array.length) {
-          this.setBar(index, array, this.accentColor);
-          await this.sleep(this.delay);
+          this._setBar(index, array, this.accentColor);
+          await this._sleep(this.delay);
 
-          this.setBar(index, array, this.mainColor);
+          this._setBar(index, array, this.mainColor);
         }
       } else {
-        this.setBar(index, array, this.accentColor);
-        this.setBar(index - 1, array, this.accentColor);
-        await this.sleep(this.delay);
+        this._setBar(index, array, this.accentColor);
+        this._setBar(index - 1, array, this.accentColor);
+        await this._sleep(this.delay);
 
-        await this.swap(array, index, index - 1);
+        await this._swap(array, index, index - 1);
 
-        this.setBar(index, array, this.accentColor, true);
-        this.setBar(index - 1, array, this.accentColor, true);
-        await this.sleep(this.delay);
+        this._setBar(index, array, this.accentColor, true);
+        this._setBar(index - 1, array, this.accentColor, true);
+        await this._sleep(this.delay);
 
-        this.setBar(index, array, this.mainColor);
-        this.setBar(index - 1, array, this.mainColor);
+        this._setBar(index, array, this.mainColor);
+        this._setBar(index - 1, array, this.mainColor);
 
         index--;
       }
     }
-    await this.sleep(this.delay);
+    await this._sleep(this.delay);
 
     return array;
   };
@@ -233,20 +233,20 @@ export default class Sort {
         for (j = i; j >= gap && array[j - gap] > temp; j -= gap) {
           array[j] = array[j - gap];
 
-          this.setBar(j, array, this.accentColor, true);
-          this.setBar(j - gap, array, this.auxColor, true);
-          await this.sleep(this.delay);
-          await this.sleep(this.delay);
+          this._setBar(j, array, this.accentColor, true);
+          this._setBar(j - gap, array, this.auxColor, true);
+          await this._sleep(this.delay);
+          await this._sleep(this.delay);
 
-          this.setBar(j, array, this.mainColor);
+          this._setBar(j, array, this.mainColor);
         }
 
         array[j] = temp;
 
-        this.setBar(j, array, this.aux, true);
-        await this.sleep(this.delay);
+        this._setBar(j, array, this.aux, true);
+        await this._sleep(this.delay);
 
-        this.setBar(j, array, this.mainColor);
+        this._setBar(j, array, this.mainColor);
       }
       gap = Math.floor(gap / 2);
     }
