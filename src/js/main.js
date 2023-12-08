@@ -1,5 +1,5 @@
 import "../assets/styles/index.scss";
-import Controller from "./components/controller";
+import Setup from "./components/setup";
 import Sort from "./components/sort";
 
 const randomizeArrayBtn = document.querySelector("#randomize_array_btn");
@@ -20,7 +20,7 @@ const SORT_ALGORITHMS = {
   shell: sort.shellSort,
 };
 
-const controller = new Controller(
+const setup = new Setup(
   barsContainer,
   arrayLengthInput,
   algorithmSelect,
@@ -30,4 +30,4 @@ const controller = new Controller(
   SORT_ALGORITHMS
 );
 
-window.addEventListener("load", controller.init);
+window.addEventListener("load", setup.init);

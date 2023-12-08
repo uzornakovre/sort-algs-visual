@@ -9,10 +9,10 @@ export default class Sort {
     this.auxColor = "#dbb676";
     this.mainColor = "#e2cca5";
     this.isRunning = false;
-    this.setEventListeners();
+    this._setEventListeners();
   }
 
-  setEventListeners = () => {
+  _setEventListeners = () => {
     this.delayInput.addEventListener("input", this.handleChangeSpeed);
     this.stopBtn.addEventListener("click", this.stop);
   };

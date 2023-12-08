@@ -1,4 +1,4 @@
-export default class Controller {
+export default class Setup {
   constructor(
     barsContainer,
     arrayLengthInput,
@@ -21,44 +21,44 @@ export default class Controller {
     this.minArrayRange = 2;
   }
 
-  setEventListeners = () => {
+  _setEventListeners = () => {
     this.arrayLengthInput.addEventListener(
       "input",
-      this.handleChangeArrayLength.bind(this)
+      this._handleChangeArrayLength.bind(this)
     );
     this.algorithmSelect.addEventListener(
       "change",
-      this.handleChangeSortAlgorithm.bind(this)
+      this._handleChangeSortAlgorithm.bind(this)
     );
     this.randomizeArrayBtn.addEventListener(
       "click",
-      this.renderNewArray.bind(this)
+      this._renderNewArray.bind(this)
     );
     this.sortBtn.addEventListener("click", () =>
-      this.handleStartSort(this.unsortedArray, this.sortAlgorithm)
+      this._handleStartSort(this.unsortedArray, this.sortAlgorithm)
     );
   };
 
   init = () => {
-    this.setEventListeners();
-    this.disableControls([this.stopBtn]);
-    this.renderNewArray();
+    this._setEventListeners();
+    this._disableControls([this.stopBtn]);
+    this._renderNewArray();
   };
 
-  getRandomNumber = (min, max) => {
+  _getRandomNumber = (min, max) => {
     return Math.round(Math.random() * (max - min)) + min;
   };
 
-  createRandomArray = () => {
+  _createRandomArray = () => {
     for (let i = 0; i < this.arrayLength; i++) {
-      this.unsortedArray[i] = this.getRandomNumber(
+      this.unsortedArray[i] = this._getRandomNumber(
         this.minArrayRange,
         this.arrayLength
       );
     }
   };
 
-  renderBars = (array) => {
+  _renderBars = (array) => {
     for (let i = 0; i < array.length; i++) {
       const bar = document.createElement("div");
       bar.classList.add("bar");
@@ -68,50 +68,49 @@ export default class Controller {
     }
   };
 
-  clearBarContainer = () => {
+  _clearBarContainer = () => {
     this.barsContainer.innerHTML = "";
   };
 
-  renderNewArray = () => {
+  _renderNewArray = () => {
     this.unsortedArray = new Array(this.arrayLength);
 
-    this.clearBarContainer();
-    this.createRandomArray();
-    this.renderBars(this.unsortedArray);
-    this.enableControls([this.sortBtn, this.arrayLengthInput]);
+    this._clearBarContainer();
+    this._createRandomArray();
+    this._renderBars(this.unsortedArray);
+    this._enableControls([this.sortBtn, this.arrayLengthInput]);
   };
 
-  handleChangeArrayLength = (evt) => {
+  _handleChangeArrayLength = (evt) => {
     this.arrayLength = evt.target.value;
   };
 
-  handleChangeSortAlgorithm = (evt) => {
+  _handleChangeSortAlgorithm = (evt) => {
     this.sortAlgorithm = this.SORT_ALGORITHMS[evt.target.value];
-    console.log(this.SORT_ALGORITHMS[evt.target.value]);
   };
 
-  disableControls = (elements) => {
+  _disableControls = (elements) => {
     elements.forEach((element) => {
       element.setAttribute("disabled", true);
     });
   };
 
-  enableControls = (elements) => {
+  _enableControls = (elements) => {
     elements.forEach((element) => {
       element.removeAttribute("disabled");
     });
   };
 
-  handleStartSort = (array, algorithm) => {
-    this.disableControls([
+  _handleStartSort = (array, algorithm) => {
+    this._disableControls([
       this.sortBtn,
       this.arrayLengthInput,
       this.randomizeArrayBtn,
     ]);
-    this.enableControls([this.stopBtn]);
+    this._enableControls([this.stopBtn]);
     algorithm(array).then((res) => {
-      this.disableControls([this.stopBtn]);
-      this.enableControls([
+      this._disableControls([this.stopBtn]);
+      this._enableControls([
         this.sortBtn,
         this.arrayLengthInput,
         this.randomizeArrayBtn,
